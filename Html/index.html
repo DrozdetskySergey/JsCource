@@ -3,8 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" href="normalize.css">
 </head>
 <body>
-
+<!-- Сделать страницу с формой, в которой будут следующие
+виды элементов: текстовые поля ввода, многострочные
+поля ввода, чекбоксы , радио баттоны , выпадающие списки
+с единичным и множественным выбором, кнопка. И
+сделайте ссылку на страницу 2 -->
+<form>
+    <label>
+        Ваше имя:
+        <input type="text" placeholder="Имя" name="first_name">
+    </label>
+    <label>
+        Ваша фамилия:
+        <input type="text" placeholder="Фамилия" name="family_name">
+    </label><br>
+    <label>
+        <input type="radio" name="male" value="man">
+        Мужчина.
+    </label><br>
+    <label>
+        <input type="radio" name="male" value="woman">
+        Женщина.
+    </label><br>
+    <label>
+        <input type="checkbox" name="kids">
+        Есть дети.
+    </label>
+    <label>
+        <input type="checkbox" name="">
+        Есть домашние питомцы.
+    </label><br>
+    <label>
+        Город проживания:
+        <select size="1" name="city">
+            <option>Анапа</option>
+            <option>Москва</option>
+            <option>Новосибирск</option>
+        </select>
+    </label><br>
+    <label>
+        Любимое время года:
+        <select size="3" multiple name="seasons">
+            <option>Лето</option>
+            <option>Осень</option>
+            <option>Зима</option>
+            <option>Весна</option>
+        </select>
+    </label><br>
+    <label>
+        Немного о себе:<br>
+        <textarea placeholder="О себе" name="about"></textarea>
+    </label><br>
+    <button type="submit">Отправить</button>
+</form>
+<a href="info.html">Дополнительная информация.</a>
 </body>
 </html>
