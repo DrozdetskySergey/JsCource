@@ -1,36 +1,42 @@
 .js_info {
-    width: min(100vw, 850px);
-    height: max(463px, 850*463/width);
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 850px;
     margin: 0 auto;
+    padding-left: 10px;
+    padding-right: 10px;
     font-family: sans-serif;
     color: #676565;
     background-color: #feeed6;
 }
 
 .header {
-    font-size: 32px;
     margin: 0;
-    padding: 5px 10px 6px;
+    padding-top: 5px;
+    font-size: 32px;
+    line-height: 1.1;
 }
 
 .declaring {
-    font-size: 20px;
     margin: 0;
-    padding: 6px 9px 3px;
+    padding-top: 16px;
+    font-size: 20px;
+    line-height: 0.8;
 }
 
 .course_header {
-    font-size: 18px;
     margin: 0;
-    padding: 12px 9px 4px;
+    padding-top: 19px;
+    font-size: 18px;
 }
 
 .course_content {
-    font-size: 17px;
     margin: 0;
-    padding: 6px 9px;
-    line-height: 1.45;
-    word-spacing: 1px;
+    padding-top: 9px;
+    padding-bottom: 2px;
+    font-size: 17px;
+    line-height: 1.42;
+    word-spacing: 2px;
     text-align: justify;
     text-indent: 18px;
 }
