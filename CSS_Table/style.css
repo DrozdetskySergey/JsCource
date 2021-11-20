@@ -2,25 +2,22 @@
     width: 100%;
     max-width: 855px;
     margin: 0 auto;
-    border: 1px solid #d9d9d9;
     border-collapse: collapse;
     font-family: "Lucida Sans Unicode", serif;
     font-size: 20px;
     text-align: left;
 }
 
-.humans_table_th {
+.humans_table th,td {
     padding: 14px 12px;
+    border: 1px solid #d9d9d9;
+}
+
+.humans_table th {
     color: #fff;
     background-color: #3498db;
-    border: 1px solid #d9d9d9;
 }
 
-.humans_table_td {
-    padding: 14px 12px;
-    border: 1px solid #d9d9d9;
-}
-
-.humans_table_body tr:nth-child(odd) {
+.humans_table tr:nth-child(odd) {
     background-color: #eee;
 }
