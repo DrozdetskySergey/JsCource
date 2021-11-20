@@ -1,0 +1,57 @@
+.application {
+    width: 100%;
+    max-width: 843px;
+    margin: 0 auto;
+    box-sizing: border-box;
+    font-family: sans-serif;
+}
+
+.application > p {
+    padding: 26px 18px 1px;
+    font-size: 33px;
+}
+
+.application > div {
+    padding: 0 18px 15px;
+    font-size: 16px;
+    background-color: #feeed6;
+}
+
+.application > div > p {
+    padding-top: 20px;
+    padding-bottom: 8px;
+}
+
+.application input, textarea {
+    width: 100%;
+    border: 0;
+    padding: 11px 14px 9px;
+}
+
+.application button {
+    float: right;
+    border: 0;
+    padding: 9px 13px;
+    color: #fff;
+    background-color: #378db2;
+    cursor: pointer;
+}
+
+.application button:hover {
+    background-color: #32728d;
+}
+
+.application > div::after {
+    content: "";
+    display: block;
+    clear: both;
+}
+
+.application * {
+    margin: 0;
+    box-sizing: border-box;
+}
+
+.strong {
+    font-weight: 700;
+}

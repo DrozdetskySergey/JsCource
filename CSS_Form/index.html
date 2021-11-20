@@ -7,6 +7,28 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
+<form class="application">
+    <p>Отправить заявку</p>
+    <div>
+        <p class="strong">Ваше имя</p>
+        <label>
+            <input type="text" placeholder="Ваше имя *" required name="first_name">
+        </label>
+        <p class="strong">Ваш номер телефона</p>
+        <label>
+            <input type="text" placeholder="Ваш номер телефона *" required name="telephone">
+        </label>
+        <p class="strong">Ваш email или VK</p>
+        <label>
+            <input type="text" placeholder="Ваш email или VK *" required name="email">
+        </label>
+        <p class="strong">Комментарий</p>
+        <label>
+            <textarea rows="6" placeholder="Комментарий (не обязательно)" name="comment"></textarea>
+        </label>
+        <p>Заполните и отправьте форму, и мы перезвоним Вам по указанному номеру</p>
+        <button type="submit" class="strong">Отправить заявку</button>
+    </div>
+</form>
 </body>
 </html>
