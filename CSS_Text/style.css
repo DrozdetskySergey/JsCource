@@ -10,30 +10,32 @@
     background-color: #feeed6;
 }
 
-.header {
+.js_info > p {
     margin: 0;
-    padding-top: 5px;
+}
+
+.header {
+    padding-top: 7px;
+    padding-bottom: 4px;
     font-size: 32px;
     line-height: 1.1;
 }
 
 .declaring {
-    margin: 0;
-    padding-top: 16px;
-    font-size: 20px;
-    line-height: 0.8;
+    padding-top: 11px;
+    font-size: 19px;
+    line-height: 1.1;
 }
 
 .course_header {
-    margin: 0;
-    padding-top: 19px;
-    font-size: 18px;
+    padding-top: 15px;
+    font-size: 19px;
 }
 
 .course_content {
     margin: 0;
-    padding-top: 9px;
-    padding-bottom: 2px;
+    padding-top: 8px;
+    padding-bottom: 3px;
     font-size: 17px;
     line-height: 1.42;
     word-spacing: 2px;
