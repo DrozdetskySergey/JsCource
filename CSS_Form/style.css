@@ -1,4 +1,4 @@
-.application {
+.form1 {
     width: 100%;
     max-width: 843px;
     margin: 0 auto;
@@ -6,29 +6,35 @@
     font-family: sans-serif;
 }
 
-.application > p {
-    padding: 26px 18px 1px;
-    font-size: 33px;
+.form1 * {
+    margin: 0;
+    box-sizing: border-box;
 }
 
-.application > div {
+.form1_application_header {
+    padding: 26px 18px 1px;
+    font-size: 33px;
+    color: #676565;
+}
+
+.form1_application {
     padding: 0 18px 15px;
     font-size: 16px;
     background-color: #feeed6;
 }
 
-.application > div > p {
+.form1_application > p {
     padding-top: 20px;
     padding-bottom: 8px;
 }
 
-.application input, textarea {
+.form1_application input, .form1_application textarea {
     width: 100%;
     border: 0;
     padding: 11px 14px 9px;
 }
 
-.application button {
+.form1_application button {
     float: right;
     border: 0;
     padding: 9px 13px;
@@ -37,21 +43,21 @@
     cursor: pointer;
 }
 
-.application button:hover {
+.form1_application button:hover {
     background-color: #32728d;
 }
 
-.application > div::after {
+.form1_application::after {
     content: "";
     display: block;
     clear: both;
 }
 
-.application * {
-    margin: 0;
-    box-sizing: border-box;
+.form1_strong_text {
+    font-weight: 700;
+    color: #676565;
 }
 
-.strong {
-    font-weight: 700;
+.form1_grey_text {
+    color: #737373;
 }
