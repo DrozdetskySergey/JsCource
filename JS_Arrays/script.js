@@ -1,12 +1,8 @@
 (function f() {
     function getEvenNumbersSumInArray(numbers) {
         return numbers
-            .filter(function (n) {
-                return n % 2 === 0;
-            })
-            .reduce(function (sum, n) {
-                return sum + n;
-            }, 0);
+            .filter(n => n % 2 === 0)
+            .reduce((sum, n) => sum + n, 0);
     }
 
     function getEvenNumbersSquaresListInArray(numbers) {
