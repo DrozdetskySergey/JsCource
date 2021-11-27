@@ -32,6 +32,7 @@
     width: 100%;
     border: 0;
     padding: 11px 14px 9px;
+    resize: none;
 }
 
 .form1_application button {
