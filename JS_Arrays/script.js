@@ -1,9 +1,8 @@
 (function () {
     function getEvenNumbersSumInArray(numbers) {
-        return numbers
-            .reduce(function (sum, n) {
-                return n % 2 === 0 ? sum + n : sum;
-            }, 0);
+        return numbers.reduce(function (sum, n) {
+            return n % 2 === 0 ? sum + n : sum;
+        }, 0);
     }
 
     function getEvenNumbersSquaresListInArray(numbers) {
@@ -34,8 +33,8 @@
 
     var numbers2 = [];
 
-    for (var i = 0; i < 100; i++) {
-        numbers2[i] = i + 1;
+    for (var i = 1; i <= 100; i++) {
+        numbers2.push(i);
     }
 
     console.log(numbers2.join(", "));
