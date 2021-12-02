@@ -1,36 +1,22 @@
 (function () {
-    function Country(name, cities) {
-        this.name = name;
-        this.cities = cities;
-    }
-
-    function City(name, population) {
-        this.name = name;
-        this.population = population;
-    }
-
-    function showCountriesWithCitiesCountMaximum(countries) {
-        var citiesCountMaximum = 0;
-        var countriesList;
+    function getCountriesWithCitiesMaxCount(countries) {
+        var citiesMaxCount = 0;
+        var countriesList = [];
 
         countries.forEach(function (country) {
             var citiesCount = country.cities.length;
 
-            if (citiesCount >= citiesCountMaximum) {
-                if (citiesCount > citiesCountMaximum) {
-                    citiesCountMaximum = citiesCount;
+            if (citiesCount >= citiesMaxCount) {
+                if (citiesCount > citiesMaxCount) {
+                    citiesMaxCount = citiesCount;
                     countriesList = [];
                 }
 
-                countriesList.push(country.name);
+                countriesList.push(country);
             }
         });
 
-        if (citiesCountMaximum === 0) {
-            console.log("В этих странах нет городов.");
-        }
-
-        console.log("Максимальное колличество городов: " + citiesCountMaximum + " находятся в странах: " + countriesList.join(", "));
+        return countriesList;
     }
 
     function getCountryPopulation(country) {
@@ -39,42 +25,73 @@
         }, 0);
     }
 
-    var countries = [];
+    function getCountriesPopulations(countries) {
+        var countriesPopulations = {};
 
-    countries.push(new Country("Country1", [
-        new City("City1", 800000),
-        new City("City2", 340000),
-        new City("City3", 400000)]));
+        countries.forEach(function (country) {
+            countriesPopulations[country.name] = getCountryPopulation(country);
+        });
 
-    countries.push(new Country("Country2", [
-        new City("City4", 300000),
-        new City("City5", 1000000),
-        new City("City6", 330000),
-        new City("City7", 160000),
-        new City("City8", 770000)]));
+        return countriesPopulations;
+    }
 
-    countries.push(new Country("Country3", [
-        new City("City9", 70000),
-        new City("City10", 260000),
-        new City("City11", 860000),
-        new City("City12", 600000)]));
-
-    countries.push(new Country("Country4", [
-        new City("City13", 370000),
-        new City("City14", 450000),
-        new City("City15", 760000),
-        new City("City16", 920000),
-        new City("City17", 130000)]));
+    var countries = [
+        {
+            name: "Country1",
+            cities: [
+                {name: "City1", population: 800000},
+                {name: "City2", population: 340000},
+                {name: "City3", population: 400000},
+            ],
+        },
+        {
+            name: "Country2",
+            cities: [
+                {name: "City4", population: 300000},
+                {name: "City5", population: 1000000},
+                {name: "City6", population: 330000},
+                {name: "City7", population: 160000},
+                {name: "City8", population: 770000},
+            ],
+        },
+        {
+            name: "Country3",
+            cities: [
+                {name: "City9", population: 700000},
+                {name: "City10", population: 260000},
+                {name: "City11", population: 860000},
+                {name: "City12", population: 600000},
+            ],
+        },
+        {
+            name: "Country4",
+            cities: [
+                {name: "City13", population: 370000},
+                {name: "City14", population: 450000},
+                {name: "City15", population: 760000},
+                {name: "City16", population: 920000},
+                {name: "City17", population: 130000},
+            ],
+        },
+    ];
 
     console.log(countries);
 
-    showCountriesWithCitiesCountMaximum(countries);
+    var countriesWithCitiesMaxCount = getCountriesWithCitiesMaxCount(countries);
 
-    var countriesPopulation = {};
+    if (countriesWithCitiesMaxCount.length === 0) {
+        console.log("Список стран с максимальным количеством городов пуст.");
+    } else {
+        var citiesCount = countriesWithCitiesMaxCount[0].cities.length;
 
-    countries.forEach(function (country) {
-        countriesPopulation[country.name] = getCountryPopulation(country);
-    });
+        var citiesNamesString = countriesWithCitiesMaxCount.map(function (country) {
+            return country.name;
+        }).join(", ");
 
-    console.log(countriesPopulation);
+        console.log("Максимальное колличество городов: " + citiesCount + " находятся в стране(ах): " + citiesNamesString);
+    }
+
+    var countriesPopulations = getCountriesPopulations(countries);
+
+    console.log(countriesPopulations);
 })();
