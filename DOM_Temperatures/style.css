@@ -1,0 +1,11 @@
+.temperatures_calc {
+    width: 100%;
+    max-width: 300px;
+    margin: 0 auto;
+    background-color: gold;
+}
+
+.invalid {
+    background-color: red;
+    color: white;
+}
