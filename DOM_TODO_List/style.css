@@ -1,0 +1,28 @@
+.list_form {
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+    background-color: #378db2;
+}
+
+.list_form * {
+    margin: 0;
+    box-sizing: border-box;
+}
+
+.list_form > h1 {
+    text-align: center;
+}
+
+.list_item {
+
+}
+
+.list > p {
+    display: block;
+}
+
+.input {
+    margin-left: 20px;
+    background-color: #378db2;
+}
