@@ -14,8 +14,8 @@
         var listItem = document.createElement("li");
 
         function setViewMode() {
-            listItem.innerHTML = "<p class='list_item_text'></p> <button class='edit_button'>Редактировать</button>"
-                + "<button class='delete_button'>Удалить</button>";
+            listItem.innerHTML = "<p class='list_item_text'></p>"
+                + "<button class='edit_button'>Редактировать</button> <button class='delete_button'>Удалить</button>";
 
             listItem.querySelector(".delete_button").addEventListener("click", function () {
                 listItem.remove();
@@ -31,8 +31,8 @@
         }
 
         function setEditMode() {
-            listItem.innerHTML = "<input class='list_item_edit'> <button class='save_button'>Сохранить</button>"
-                + "<button class='cancel_button'>Отмена</button>";
+            listItem.innerHTML = "<input class='list_item_edit'>"
+                + "<button class='save_button'>Сохранить</button> <button class='cancel_button'>Отмена</button>";
 
             var editInput = listItem.querySelector(".list_item_edit");
 

@@ -2,7 +2,7 @@
     width: 100%;
     max-width: 900px;
     margin: 0 auto;
-    background-color: #378db2;
+    font-size: 20px;
 }
 
 .list_form * {
@@ -15,14 +15,24 @@
 }
 
 .list_item {
-
-}
-
-.list > p {
-    display: block;
+    margin: 10px 20px 10px 0;
 }
 
 .input {
-    margin-left: 20px;
-    background-color: #378db2;
+    width: calc(100% - 40px);
+    margin: 0 20px;
+}
+
+.list_item_edit {
+    width: calc(100% - 20px);
+}
+
+.edit_button, .delete_button, .save_button, .cancel_button {
+    margin: 5px 0;
+    min-width: 145px;
+}
+
+.add_button {
+    margin: 5px 40px;
+    min-width: 145px;
 }
