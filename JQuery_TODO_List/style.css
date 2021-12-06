@@ -1,0 +1,38 @@
+.list_form {
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+    font-size: 20px;
+}
+
+.list_form * {
+    margin: 0;
+    box-sizing: border-box;
+}
+
+.list_form > h1 {
+    text-align: center;
+}
+
+.list_item {
+    margin: 10px 20px 10px 0;
+}
+
+.input {
+    width: calc(100% - 40px);
+    margin: 0 20px;
+}
+
+.list_item_edit {
+    width: calc(100% - 20px);
+}
+
+.edit_button, .delete_button, .save_button, .cancel_button {
+    margin: 5px 0;
+    min-width: 145px;
+}
+
+.add_button {
+    margin: 5px 40px;
+    min-width: 145px;
+}
