@@ -40,6 +40,8 @@
                 var editText = editInput.value.trim();
 
                 if (!editText) {
+                    alert("Ваша запись пустая!");
+
                     return;
                 }
 
@@ -67,6 +69,8 @@
         }
 
         if (!text) {
+            alert("Ваша запись пустая!");
+
             return;
         }
 
