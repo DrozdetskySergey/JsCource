@@ -4,24 +4,33 @@
     var fahrenheitTemperature = document.querySelector(".fahrenheit_temperature");
     var calcButton = document.querySelector(".calc_button");
 
-    var translateTemperature = function () {
-        var celsiusTemperatureValue = Number(celsiusTemperature.value);
+    function translateTemperature() {
+        var minCelsiusTemperature = -273.15;
+        var inputString = celsiusTemperature.value;
 
-        if (isNaN(celsiusTemperatureValue) || celsiusTemperatureValue < -273) {
+        var celsiusTemperatureValue = inputString === "" ? NaN : Number(inputString);
+
+        if (isNaN(celsiusTemperatureValue) || celsiusTemperatureValue < minCelsiusTemperature) {
             celsiusTemperature.classList.add("invalid");
             kelvinTemperature.textContent = "?";
             fahrenheitTemperature.textContent = "?";
+
+            if (celsiusTemperatureValue < minCelsiusTemperature) {
+                alert("По Цльсию минимальное значение = -273.15. Введите корректное значение.");
+            } else {
+                alert("Введите числовое значение температуры в градусах по Цельсию.");
+            }
         } else {
             celsiusTemperature.classList.remove("invalid");
-            kelvinTemperature.textContent = String(celsiusTemperatureValue + 273);
-            fahrenheitTemperature.textContent = String(celsiusTemperatureValue * 9 / 5 + 32);
+            kelvinTemperature.textContent = (celsiusTemperatureValue + 273.15).toFixed(2);
+            fahrenheitTemperature.textContent = (celsiusTemperatureValue * 9 / 5 + 32).toFixed(2);
         }
-    };
+    }
 
     calcButton.addEventListener("click", translateTemperature);
 
     celsiusTemperature.addEventListener("keydown", function (event) {
-        if (event.code === "Enter") {
+        if (event.key === "Enter") {
             event.preventDefault();
 
             translateTemperature();
