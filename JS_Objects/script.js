@@ -41,8 +41,8 @@
             cities: [
                 {name: "City1", population: 800000},
                 {name: "City2", population: 340000},
-                {name: "City3", population: 400000},
-            ],
+                {name: "City3", population: 400000}
+            ]
         },
         {
             name: "Country2",
@@ -51,8 +51,8 @@
                 {name: "City5", population: 1000000},
                 {name: "City6", population: 330000},
                 {name: "City7", population: 160000},
-                {name: "City8", population: 770000},
-            ],
+                {name: "City8", population: 770000}
+            ]
         },
         {
             name: "Country3",
@@ -60,8 +60,8 @@
                 {name: "City9", population: 700000},
                 {name: "City10", population: 260000},
                 {name: "City11", population: 860000},
-                {name: "City12", population: 600000},
-            ],
+                {name: "City12", population: 600000}
+            ]
         },
         {
             name: "Country4",
@@ -70,9 +70,9 @@
                 {name: "City14", population: 450000},
                 {name: "City15", population: 760000},
                 {name: "City16", population: 920000},
-                {name: "City17", population: 130000},
-            ],
-        },
+                {name: "City17", population: 130000}
+            ]
+        }
     ];
 
     console.log(countries);
