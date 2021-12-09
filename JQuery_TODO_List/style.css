@@ -3,6 +3,7 @@
     max-width: 900px;
     margin: 0 auto;
     font-size: 20px;
+    background-color: #feeed6;
 }
 
 .list_form * {
@@ -18,13 +19,17 @@
     margin: 10px 20px 10px 0;
 }
 
+.li_number {
+    margin-left: 20px;
+}
+
 .input {
-    width: calc(100% - 40px);
-    margin: 0 20px;
+    width: calc(100% - 60px);
+    margin-right: 20px;
 }
 
 .list_item_edit {
-    width: calc(100% - 20px);
+    width: calc(100%);
 }
 
 .edit_button, .delete_button, .save_button, .cancel_button {

@@ -1,12 +1,13 @@
 $(function () {
+    var liNumber = $(".li_number");
     var inputText = $(".input");
     var addButton = $(".add_button");
     var list = $(".list");
 
-    function editInputTextPlaceholder() {
+    function editLiNumber() {
         var listItemCount = $(".list .list_item").length;
 
-        inputText.attr("placeholder", String(listItemCount + 1));
+        liNumber.text((listItemCount + 1).toString() + ".");
     }
 
     function addListItem() {
@@ -20,7 +21,7 @@ $(function () {
             listItem.find(".delete_button").click(function () {
                 listItem.remove();
 
-                editInputTextPlaceholder();
+                editLiNumber();
             });
 
             listItem.find(".edit_button").click(function () {
@@ -57,7 +58,7 @@ $(function () {
             });
 
             editInput.on("keydown", function (event) {
-                if (event.code === "Enter") {
+                if (event.key === "Enter") {
                     event.preventDefault();
 
                     editListItem();
@@ -81,13 +82,13 @@ $(function () {
         inputText.focus();
         inputText.val("");
 
-        editInputTextPlaceholder();
+        editLiNumber();
     }
 
     addButton.click(addListItem);
 
     inputText.on("keydown", function (event) {
-        if (event.code === "Enter") {
+        if (event.key === "Enter") {
             event.preventDefault();
 
             addListItem();

@@ -1,12 +1,13 @@
 (function () {
+    var liNumber = document.querySelector(".li_number");
     var inputText = document.querySelector(".input");
     var addButton = document.querySelector(".add_button");
     var list = document.querySelector(".list");
 
-    function editInputTextPlaceholder() {
+    function editLiNumber() {
         var listItemCount = list.childNodes.length;
 
-        inputText.setAttribute("placeholder", String(listItemCount + 1));
+        liNumber.textContent = (listItemCount + 1).toString() + ".";
     }
 
     function addListItem() {
@@ -20,7 +21,7 @@
             listItem.querySelector(".delete_button").addEventListener("click", function () {
                 listItem.remove();
 
-                editInputTextPlaceholder();
+                editLiNumber();
             });
 
             listItem.querySelector(".edit_button").addEventListener("click", function () {
@@ -57,7 +58,7 @@
             });
 
             editInput.addEventListener("keydown", function (event) {
-                if (event.code === "Enter") {
+                if (event.key === "Enter") {
                     event.preventDefault();
 
                     editListItem();
@@ -81,13 +82,13 @@
         inputText.focus();
         inputText.value = "";
 
-        editInputTextPlaceholder();
+        editLiNumber();
     }
 
     addButton.addEventListener("click", addListItem);
 
     inputText.addEventListener("keydown", function (event) {
-        if (event.code === "Enter") {
+        if (event.key === "Enter") {
             event.preventDefault();
 
             addListItem();
