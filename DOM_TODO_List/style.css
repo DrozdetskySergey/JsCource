@@ -29,7 +29,7 @@
 }
 
 .list_item_edit {
-    width: calc(100%);
+    width: 100%;
 }
 
 .edit_button, .delete_button, .save_button, .cancel_button {
