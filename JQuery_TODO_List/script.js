@@ -7,7 +7,7 @@ $(function () {
     function editLiNumber() {
         var listItemCount = $(".list .list_item").length;
 
-        liNumber.text((listItemCount + 1).toString() + ".");
+        liNumber.text((listItemCount + 1) + ".");
     }
 
     function addListItem() {

@@ -7,7 +7,7 @@
     function editLiNumber() {
         var listItemCount = list.childNodes.length;
 
-        liNumber.textContent = (listItemCount + 1).toString() + ".";
+        liNumber.textContent = (listItemCount + 1) + ".";
     }
 
     function addListItem() {

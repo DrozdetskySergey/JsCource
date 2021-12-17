@@ -2,9 +2,53 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>PhoneBook</title>
+    <script defer src="node_modules/jquery/dist/jquery.js"></script>
+    <script defer src="node_modules/bootstrap/dist/js/bootstrap.bundle.js"></script>
+    <script defer src="script.js"></script>
+    <link href="node_modules/bootstrap/dist/css/bootstrap.css" rel="stylesheet">
 </head>
 <body>
-
+<div class="container fs-5">
+    <div class="row my-1">
+        <button class="col-3 col-sm-2 col-lg-1 phone-book-dell-button btn btn-danger mx-1">Удалить</button>
+        <div class="col-8 col-lg-6">
+            <input type="text" class="phone-book-search form-control" placeholder="Поиск">
+        </div>
+    </div>
+    <div class="row my-1">
+        <div class="col-1 bg-primary text-center"><label><input type="checkbox" class="mass-checkbox"></label></div>
+        <div class="col-1 bg-primary text-white text-center">№</div>
+        <div class="col-3 bg-primary text-white">Фамилия</div>
+        <div class="col-2 bg-primary text-white">Имя</div>
+        <div class="col-4 bg-primary text-white text-nowrap">Номер телефона</div>
+        <div class="col-1 bg-primary"></div>
+    </div>
+    <div class="phone-book">
+        <div class="phone-book-contact row my-1">
+            <div class="col-1 bg-light text-center"><label><input type="checkbox"></label></div>
+            <div class="col-1 contact-number bg-primary text-white text-center">1</div>
+            <div class="col-3 contact-lastname bg-light text-nowrap">Дроздецкий</div>
+            <div class="col-2 contact-name bg-light text-nowrap">Сергей</div>
+            <div class="col-4 contact-phone bg-light text-nowrap">8-913-775-0555</div>
+            <div class="col-1 bg-light text-center">
+                <button class="btn btn-danger btn-sm align-top">X</button>
+            </div>
+        </div>
+    </div>
+    <div class="row my-2">
+        <div class="col-sm-6 col-lg-3 my-1">
+            <input type="text" class="phone-book-lastname form-control" placeholder="Фамилия">
+        </div>
+        <div class="col-sm-6 col-lg-2 my-1">
+            <input type="text" class="phone-book-name form-control" placeholder="Имя">
+        </div>
+        <div class="col-sm-6 col-lg-4 my-1">
+            <input type="text" class="phone-book-phone form-control" placeholder="Номер телефона">
+        </div>
+        <button class="col-3 col-sm-2 col-xl-1 phone-book-add-button btn btn-primary mx-3 my-1">Добавить</button>
+    </div>
+</div>
 </body>
 </html>
