@@ -14,8 +14,8 @@
 
     console.log(people);
 
-    var agesSum = _.reduce(people, function (memo, person) {
-        return memo + person.age;
+    var agesSum = _.reduce(people, function (sum, person) {
+        return sum + person.age;
     }, 0);
 
     var middleAge = agesSum / people.length;
@@ -34,15 +34,17 @@
     var names = _.chain(group)
         .pluck("name")
         .uniq()
-        .sortBy()
-        .reverse()
-        .value();
+        .value()
+        .sort(function (n1, n2) {
+            var lowerCaseName1 = n1.toLowerCase();
+            var lowerCaseName2 = n2.toLowerCase();
+
+            return lowerCaseName1 === lowerCaseName2 ? 0 : lowerCaseName1 < lowerCaseName2 ? 1 : -1;
+        });
 
     console.log(names);
 
-    var namesWithCountObject = _.chain(people)
-        .countBy("name")
-        .value();
+    var namesWithCountObject = _.countBy(people, "name");
 
     console.log(namesWithCountObject);
 })();
