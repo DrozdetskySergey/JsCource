@@ -34,13 +34,19 @@
     var names = _.chain(group)
         .pluck("name")
         .uniq()
-        .value()
-        .sort(function (n1, n2) {
-            var lowerCaseName1 = n1.toLowerCase();
-            var lowerCaseName2 = n2.toLowerCase();
+        .sortBy(function (nameString) {
+            var minCode = 32;
+            var maxCode = 255;
+            var codes = [];
 
-            return lowerCaseName1 === lowerCaseName2 ? 0 : lowerCaseName1 < lowerCaseName2 ? 1 : -1;
-        });
+            for (var i = 0; i < nameString.length; i++) {
+                var symbolCode = nameString.charCodeAt(i);
+                codes.push(symbolCode < minCode || symbolCode > maxCode ? symbolCode : maxCode - symbolCode + minCode);
+            }
+
+            return String.fromCharCode.apply(null, codes);
+        })
+        .value();
 
     console.log(names);
 
