@@ -6,16 +6,41 @@
     <title>PhoneBook</title>
     <script defer src="node_modules/jquery/dist/jquery.js"></script>
     <script defer src="node_modules/bootstrap/dist/js/bootstrap.bundle.js"></script>
+    <script defer src="node_modules/underscore/underscore.js"></script>
     <script defer src="script.js"></script>
     <link href="node_modules/bootstrap/dist/css/bootstrap.css" rel="stylesheet">
 </head>
 <body>
+<div class="modal fade" id="delete-confirmation-dialog" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+     aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Подтверждение удаления.</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+            </div>
+            <div class="modal-body">
+                Вы действительно хотите удалить контакт(ы)?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                <button type="button" class="delete-confirmation-button btn btn-danger" data-bs-dismiss="modal">
+                    Удалить
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="container fs-5">
     <div class="row my-1">
         <button class="col-3 col-sm-2 col-lg-1 phone-book-dell-button btn btn-danger mx-1">Удалить</button>
         <div class="col-8 col-lg-6">
-            <input type="text" class="phone-book-search form-control" placeholder="Поиск">
+            <div class="input-group">
+                <button class="phone-book-clear-search-button btn btn-secondary">...</button>
+                <input type="text" class="phone-book-search form-control" placeholder="Поиск">
+            </div>
         </div>
+
     </div>
     <div class="row my-1">
         <div class="col-1 bg-primary text-center"><label><input type="checkbox" class="mass-checkbox"></label></div>
