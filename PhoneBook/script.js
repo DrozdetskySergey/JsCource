@@ -1,5 +1,5 @@
 $(function f() {
-    var modal = new bootstrap.Modal(document.querySelector("#delete-confirmation-dialog"));
+    var deleteModal = new bootstrap.Modal(document.querySelector("#confirmation-dialog"));
     var dellButton = $(".phone-book-dell-button");
     var search = $(".phone-book-search");
     var clearButton = $(".phone-book-clear-search-button");
@@ -52,7 +52,8 @@ $(function f() {
     }
 
     dellButton.click(function () {
-        $(".delete-confirmation-button").click(function () {
+        $("#confirmation-dialog .modal-body").text("Вы действительно хотите удалить контакт(ы)?");
+        $("#confirmation-dialog .confirmation-button").click(function () {
             $(".phone-book-contact").each(function () {
                 var hasRemoved = false;
                 var contact = $(this);
@@ -70,7 +71,7 @@ $(function f() {
             });
         });
 
-        modal.show();
+        deleteModal.show();
     });
 
     massCheckbox.change(function () {
@@ -88,7 +89,27 @@ $(function f() {
         var newContact = $("<div></div>");
         var number = $(".phone-book-contact").length + 1;
 
-        // TODO valid
+        inputLastName.removeClass("is-invalid");
+        inputName.removeClass("is-invalid");
+        inputPhone.removeClass("is-invalid");
+
+        if (!lastname) {
+            inputLastName.addClass("is-invalid").focus();
+
+            return;
+        }
+
+        if (!name) {
+            inputName.addClass("is-invalid").focus();
+
+            return;
+        }
+
+        if (!phone) {
+            inputPhone.addClass("is-invalid").focus();
+
+            return;
+        }
 
         newContact.addClass("phone-book-contact row my-1");
         newContact.html("<div class='col-1 bg-light text-center'><label><input type='checkbox'></label></div>"
@@ -104,13 +125,14 @@ $(function f() {
         newContact.find(".contact-phone").text(phone);
 
         newContact.find(".contact-dell-button").click(function () {
-            $(".delete-confirmation-button").click(function () {
+            $("#confirmation-dialog .modal-body").text("Вы действительно хотите удалить контакт?");
+            $("#confirmation-dialog .confirmation-button").click(function () {
                 newContact.remove();
 
                 setContactsNumbers();
             });
 
-            modal.show();
+            deleteModal.show();
         })
 
         phoneBook.append(newContact);
@@ -118,6 +140,9 @@ $(function f() {
         inputLastName.val("");
         inputName.val("");
         inputPhone.val("");
+
+        search.val("");
+        performSearch();
 
         inputLastName.focus();
     });
