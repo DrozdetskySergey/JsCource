@@ -31,20 +31,14 @@
 
     console.log(group);
 
-    var names = _.chain(group)
+    var names = _.chain(people)
+        .filter(function (person) {
+            return person.age >= 20 && person.age <= 30;
+        })
         .pluck("name")
         .uniq()
-        .sortBy(function (nameString) {
-            var minCode = 32;
-            var maxCode = 255;
-            var codes = [];
-
-            for (var i = 0; i < nameString.length; i++) {
-                var symbolCode = nameString.charCodeAt(i);
-                codes.push(symbolCode < minCode || symbolCode > maxCode ? symbolCode : maxCode - symbolCode + minCode);
-            }
-
-            return String.fromCharCode.apply(null, codes);
+        .sort(function (name1, name2) {
+            return name1 === name2 ? 0 : name1 < name2 ? 1 : -1;
         })
         .value();
 
