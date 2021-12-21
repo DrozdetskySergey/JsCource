@@ -1,20 +1,21 @@
 $(function f() {
-    var deleteModal = new bootstrap.Modal(document.querySelector("#confirmation-dialog"));
     var dellButton = $(".phone-book-dell-button");
     var search = $(".phone-book-search");
     var clearButton = $(".phone-book-clear-search-button");
-    var massCheckbox = $(".mass-checkbox");
+    var massCheckbox = $(".phone-book-checkbox");
     var phoneBook = $(".phone-book");
-    var addButton = $(".phone-book-add-button");
     var inputLastName = $(".phone-book-lastname");
     var inputName = $(".phone-book-name");
     var inputPhone = $(".phone-book-phone");
+    var addButton = $(".phone-book-add-button");
+    var confirmationDialog = new bootstrap.Modal(document.querySelector("#confirmation-dialog"));
+    var alertDialog = new bootstrap.Modal(document.querySelector("#alert-dialog"));
 
     function performSearch() {
-        var text = search.val().trim();
+        var substring = search.val().trim().toLowerCase();
         var contacts = $(".phone-book-contact");
 
-        if (!text) {
+        if (!substring) {
             contacts.each(function () {
                 $(this).show();
             });
@@ -25,9 +26,9 @@ $(function f() {
         contacts.each(function () {
             var contact = $(this);
 
-            if (contact.find(".contact-lastname").text().indexOf(text) >= 0
-                || contact.find(".contact-name").text().indexOf(text) >= 0
-                || contact.find(".contact-phone").text().indexOf(text) >= 0) {
+            if (contact.find(".contact-lastname").text().toLowerCase().indexOf(substring) >= 0
+                || contact.find(".contact-name").text().toLowerCase().indexOf(substring) >= 0
+                || contact.find(".contact-phone").text().toLowerCase().indexOf(substring) >= 0) {
                 contact.show();
             } else {
                 contact.hide();
@@ -45,7 +46,7 @@ $(function f() {
         }
     });
 
-    function setContactsNumbers() {
+    function setContactsNumber() {
         $(".phone-book-contact").each(function (i) {
             $(this).find(".contact-number").text(i + 1);
         });
@@ -64,14 +65,14 @@ $(function f() {
                 }
 
                 if (hasRemoved) {
-                    setContactsNumbers();
+                    setContactsNumber();
                 }
 
                 massCheckbox.prop("checked", false);
             });
         });
 
-        deleteModal.show();
+        confirmationDialog.show();
     });
 
     massCheckbox.change(function () {
@@ -82,31 +83,58 @@ $(function f() {
         });
     });
 
+    function chekValidNewContact(lastName, name, phone, contacts) {
+        var hasNotDuplicate = true;
+        var alertText = $("#alert-dialog .modal-body");
+
+        if (!lastName) {
+            inputLastName.addClass("is-invalid");
+            alertText.text("Введите фамилию!");
+
+            return false;
+        }
+
+        if (!name) {
+            inputName.addClass("is-invalid");
+            alertText.text("Введите имя!");
+
+            return false;
+        }
+
+        if (!phone) {
+            inputPhone.addClass("is-invalid");
+            alertText.text("Введите номер телефона!");
+
+            return false;
+        }
+
+        contacts.each(function (i) {
+            if (phone === $(this).find(".contact-phone").text()) {
+                inputPhone.addClass("is-invalid");
+                alertText.text("Этот телефона у контакта №" + (i + 1));
+                hasNotDuplicate = false;
+
+                return false; // break this each
+            }
+        });
+
+        return hasNotDuplicate;
+    }
+
     addButton.click(function () {
-        var lastname = inputLastName.val().trim();
+        var lastName = inputLastName.val().trim();
         var name = inputName.val().trim();
         var phone = inputPhone.val().trim();
+        var contacts = $(".phone-book-contact");
         var newContact = $("<div></div>");
-        var number = $(".phone-book-contact").length + 1;
 
         inputLastName.removeClass("is-invalid");
         inputName.removeClass("is-invalid");
         inputPhone.removeClass("is-invalid");
 
-        if (!lastname) {
-            inputLastName.addClass("is-invalid").focus();
-
-            return;
-        }
-
-        if (!name) {
-            inputName.addClass("is-invalid").focus();
-
-            return;
-        }
-
-        if (!phone) {
-            inputPhone.addClass("is-invalid").focus();
+        if (!chekValidNewContact(lastName, name, phone, contacts)) {
+            alertDialog.show();
+            $(".is-invalid").focus(); // куда убегает этот фокус, и как его сюда вернуть?
 
             return;
         }
@@ -119,8 +147,8 @@ $(function f() {
             + "<div class='col-4 contact-phone bg-light text-nowrap'></div>"
             + "<div class='col-1 bg-light text-center'><button class='contact-dell-button btn btn-danger btn-sm align-top'>X</button></div>"
         );
-        newContact.find(".contact-number").text(number);
-        newContact.find(".contact-lastname").text(lastname);
+        newContact.find(".contact-number").text(contacts.length + 1);
+        newContact.find(".contact-lastname").text(lastName);
         newContact.find(".contact-name").text(name);
         newContact.find(".contact-phone").text(phone);
 
@@ -129,10 +157,10 @@ $(function f() {
             $("#confirmation-dialog .confirmation-button").click(function () {
                 newContact.remove();
 
-                setContactsNumbers();
+                setContactsNumber();
             });
 
-            deleteModal.show();
+            confirmationDialog.show();
         })
 
         phoneBook.append(newContact);
