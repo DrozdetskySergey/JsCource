@@ -11,6 +11,27 @@ $(function f() {
     var confirmationDialog = new bootstrap.Modal(document.querySelector("#confirmation-dialog"));
     var alertDialog = new bootstrap.Modal(document.querySelector("#alert-dialog"));
 
+    inputPhone.on("input", _.debounce(function () {
+        var digits = inputPhone.val()
+            .replace(/\D/g, '')
+            .split('')
+            .slice(0, 11);
+
+        if (digits.length >= 8) {
+            digits.splice(7, 0, '-');
+        }
+
+        if (digits.length >= 5) {
+            digits.splice(4, 0, '-');
+        }
+
+        if (digits.length >= 2) {
+            digits.splice(1, 0, '-');
+        }
+
+        inputPhone.val(digits.join(''));
+    }, 100));
+
     function performSearch() {
         var substring = search.val().trim().toLowerCase();
         var contacts = $(".phone-book-contact");
@@ -101,9 +122,9 @@ $(function f() {
             return false;
         }
 
-        if (!phone) {
+        if (phone.length < 14) {
             inputPhone.addClass("is-invalid");
-            alertText.text("Введите номер телефона!");
+            alertText.text("Введите номер телефона формата 8-XXX-XXX-XXXX");
 
             return false;
         }
