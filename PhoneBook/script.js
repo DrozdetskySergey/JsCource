@@ -1,5 +1,5 @@
-$(function f() {
-    var dellButton = $(".phone-book-dell-button");
+$(function () {
+    var deleteButton = $(".phone-book-delete-button");
     var search = $(".phone-book-search");
     var clearButton = $(".phone-book-clear-search-button");
     var massCheckbox = $(".phone-book-checkbox");
@@ -9,12 +9,13 @@ $(function f() {
     var inputPhone = $(".phone-book-phone");
     var addButton = $(".phone-book-add-button");
     var confirmationDialog = new bootstrap.Modal(document.querySelector("#confirmation-dialog"));
-    var alertDialog = new bootstrap.Modal(document.querySelector("#alert-dialog"));
+
+
 
     inputPhone.on("input", _.debounce(function () {
         var digits = inputPhone.val()
-            .replace(/\D/g, '')
-            .split('')
+            .replace(/\D/g, "")
+            .split("")
             .slice(0, 11);
 
         if (digits.length >= 8) {
@@ -29,17 +30,17 @@ $(function f() {
             digits.splice(1, 0, '-');
         }
 
-        inputPhone.val(digits.join(''));
+        inputPhone.val(digits.join(""));
     }, 100));
+
+
 
     function performSearch() {
         var substring = search.val().trim().toLowerCase();
         var contacts = $(".phone-book-contact");
 
         if (!substring) {
-            contacts.each(function () {
-                $(this).show();
-            });
+            contacts.show();
 
             return;
         }
@@ -57,7 +58,11 @@ $(function f() {
         });
     }
 
+
+
     search.on("input", _.debounce(performSearch, 300));
+
+
 
     clearButton.click(function () {
         if (search.val()) {
@@ -67,20 +72,24 @@ $(function f() {
         }
     });
 
+
+
     function setContactsNumber() {
         $(".phone-book-contact").each(function (i) {
             $(this).find(".contact-number").text(i + 1);
         });
     }
 
-    dellButton.click(function () {
+
+
+    deleteButton.click(function () {
         $("#confirmation-dialog .modal-body").text("Вы действительно хотите удалить контакт(ы)?");
         $("#confirmation-dialog .confirmation-button").click(function () {
             $(".phone-book-contact").each(function () {
                 var hasRemoved = false;
                 var contact = $(this);
 
-                if (contact.find("input[type='checkbox']").is(":checked")) {
+                if (contact.find("input[type='checkbox']").is(":checked") && contact.is(":visible")) {
                     hasRemoved = true;
                     contact.remove();
                 }
@@ -96,56 +105,53 @@ $(function f() {
         confirmationDialog.show();
     });
 
-    massCheckbox.change(function () {
-        var isChecked = massCheckbox.is(":checked");
 
-        $(".phone-book-contact").each(function () {
-            $(this).find("input[type='checkbox']").prop("checked", isChecked);
-        });
+
+    massCheckbox.change(function () {
+        $(".phone-book-contact input[type='checkbox']").prop("checked", massCheckbox.is(":checked"));
     });
 
-    function chekValidNewContact(lastName, name, phone, contacts) {
-        var hasNotDuplicate = true;
-        var alertText = $("#alert-dialog .modal-body");
+
+
+    function checkValidNewContact(lastName, name, phone, contacts) {
+        var isValid = true;
 
         if (!lastName) {
             inputLastName.addClass("is-invalid");
-            alertText.text("Введите фамилию!");
-
-            return false;
+            isValid = false;
         }
 
         if (!name) {
             inputName.addClass("is-invalid");
-            alertText.text("Введите имя!");
-
-            return false;
+            isValid = false;
         }
 
-        if (phone.length < 14) {
+        if (phone.length < 14 || phone.charAt(0) !== "8") {
+            $("#phone-invalid-feedback-text").text("Введите номер 8-XXX-XXX-XXXX");
             inputPhone.addClass("is-invalid");
-            alertText.text("Введите номер телефона формата 8-XXX-XXX-XXXX");
+            isValid = false;
+        } else {
+            contacts.each(function (i) {
+                if (phone === $(this).find(".contact-phone").text()) {
+                    inputPhone.addClass("is-invalid");
+                    $("#phone-invalid-feedback-text").text("Этот телефона у контакта №" + (i + 1));
+                    isValid = false;
 
-            return false;
+                    return false; // break this each
+                }
+            });
         }
 
-        contacts.each(function (i) {
-            if (phone === $(this).find(".contact-phone").text()) {
-                inputPhone.addClass("is-invalid");
-                alertText.text("Этот телефона у контакта №" + (i + 1));
-                hasNotDuplicate = false;
-
-                return false; // break this each
-            }
-        });
-
-        return hasNotDuplicate;
+        return isValid;
     }
+
+
 
     addButton.click(function () {
         var lastName = inputLastName.val().trim();
         var name = inputName.val().trim();
         var phone = inputPhone.val().trim();
+        var contactTitle = lastName + " " + name + " " + phone;
         var contacts = $(".phone-book-contact");
         var newContact = $("<div></div>");
 
@@ -153,27 +159,27 @@ $(function f() {
         inputName.removeClass("is-invalid");
         inputPhone.removeClass("is-invalid");
 
-        if (!chekValidNewContact(lastName, name, phone, contacts)) {
-            alertDialog.show();
-            $(".is-invalid").focus(); // куда убегает этот фокус, и как его сюда вернуть?
+        if (!checkValidNewContact(lastName, name, phone, contacts)) {
+            $(".is-invalid").eq(0).focus();
 
             return;
         }
 
         newContact.addClass("phone-book-contact row my-1");
-        newContact.html("<div class='col-1 bg-light text-center'><label><input type='checkbox'></label></div>"
+        newContact.attr("title", contactTitle);
+        newContact.html("<div class='col-1 bg-light text-center'><label><input type='checkbox' class='form-check-input'></label></div>"
             + "<div class='col-1 contact-number bg-primary text-white text-center'></div>"
             + "<div class='col-3 contact-lastname bg-light text-nowrap'></div>"
             + "<div class='col-2 contact-name bg-light text-nowrap'></div>"
             + "<div class='col-4 contact-phone bg-light text-nowrap'></div>"
-            + "<div class='col-1 bg-light text-center'><button class='contact-dell-button btn btn-danger btn-sm align-top'>X</button></div>"
+            + "<div class='col-1 bg-light text-center'><button class='contact-delete-button btn btn-danger btn-sm align-top' title='Удалить контакт'>X</button></div>"
         );
         newContact.find(".contact-number").text(contacts.length + 1);
         newContact.find(".contact-lastname").text(lastName);
         newContact.find(".contact-name").text(name);
         newContact.find(".contact-phone").text(phone);
 
-        newContact.find(".contact-dell-button").click(function () {
+        newContact.find(".contact-delete-button").click(function () {
             $("#confirmation-dialog .modal-body").text("Вы действительно хотите удалить контакт?");
             $("#confirmation-dialog .confirmation-button").click(function () {
                 newContact.remove();
