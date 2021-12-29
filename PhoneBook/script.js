@@ -10,8 +10,6 @@ $(function () {
     var addButton = $(".phone-book-add-button");
     var confirmationDialog = new bootstrap.Modal(document.querySelector("#confirmation-dialog"));
 
-
-
     inputPhone.on("input", _.debounce(function () {
         var digits = inputPhone.val()
             .replace(/\D/g, "")
@@ -33,8 +31,6 @@ $(function () {
         inputPhone.val(digits.join(""));
     }, 100));
 
-
-
     function performSearch() {
         var substring = search.val().trim().toLowerCase();
         var contacts = $(".phone-book-contact");
@@ -48,21 +44,13 @@ $(function () {
         contacts.each(function () {
             var contact = $(this);
 
-            if (contact.find(".contact-lastname").text().toLowerCase().indexOf(substring) >= 0
+            contact.toggle(contact.find(".contact-lastname").text().toLowerCase().indexOf(substring) >= 0
                 || contact.find(".contact-name").text().toLowerCase().indexOf(substring) >= 0
-                || contact.find(".contact-phone").text().toLowerCase().indexOf(substring) >= 0) {
-                contact.show();
-            } else {
-                contact.hide();
-            }
+                || contact.find(".contact-phone").text().toLowerCase().indexOf(substring) >= 0);
         });
     }
 
-
-
     search.on("input", _.debounce(performSearch, 300));
-
-
 
     clearButton.click(function () {
         if (search.val()) {
@@ -72,15 +60,11 @@ $(function () {
         }
     });
 
-
-
-    function setContactsNumber() {
+    function setContactsNumbers() {
         $(".phone-book-contact").each(function (i) {
             $(this).find(".contact-number").text(i + 1);
         });
     }
-
-
 
     deleteButton.click(function () {
         $("#confirmation-dialog .modal-body").text("Вы действительно хотите удалить контакт(ы)?");
@@ -95,7 +79,7 @@ $(function () {
                 }
 
                 if (hasRemoved) {
-                    setContactsNumber();
+                    setContactsNumbers();
                 }
 
                 massCheckbox.prop("checked", false);
@@ -105,13 +89,9 @@ $(function () {
         confirmationDialog.show();
     });
 
-
-
     massCheckbox.change(function () {
         $(".phone-book-contact input[type='checkbox']").prop("checked", massCheckbox.is(":checked"));
     });
-
-
 
     function checkValidNewContact(lastName, name, phone, contacts) {
         var isValid = true;
@@ -145,8 +125,6 @@ $(function () {
         return isValid;
     }
 
-
-
     addButton.click(function () {
         var lastName = inputLastName.val().trim();
         var name = inputName.val().trim();
@@ -160,7 +138,7 @@ $(function () {
         inputPhone.removeClass("is-invalid");
 
         if (!checkValidNewContact(lastName, name, phone, contacts)) {
-            $(".is-invalid").eq(0).focus();
+            $(".is-invalid:first").focus();
 
             return;
         }
@@ -184,7 +162,7 @@ $(function () {
             $("#confirmation-dialog .confirmation-button").click(function () {
                 newContact.remove();
 
-                setContactsNumber();
+                setContactsNumbers();
             });
 
             confirmationDialog.show();
@@ -201,4 +179,4 @@ $(function () {
 
         inputLastName.focus();
     });
-})();
+});
