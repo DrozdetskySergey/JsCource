@@ -23,6 +23,8 @@ Vue.component("todo-item", {
         },
 
         saveChange: function () {
+            this.newText = this.newText.trim();
+
             if (!this.newText) {
                 this.isInvalid = true;
 
@@ -56,6 +58,8 @@ new Vue({
 
     methods: {
         addNewTodoItem: function () {
+            this.newTodoItemText = this.newTodoItemText.trim();
+
             if (!this.newTodoItemText) {
                 this.isNewTodoItemInvalid = true;
 

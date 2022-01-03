@@ -22,7 +22,7 @@
     </ol>
     <form @submit.prevent="addNewTodoItem" class="pb-2">
         <div class="col">
-            <label for="input-new-todo-item" class="form-label ms-3">Запланировать:</label><br>
+            <label for="input-new-todo-item" class="form-label">Запланировать:</label><br>
             <input type="text" v-model="newTodoItemText" id="input-new-todo-item" class="form-control"
                    :class="{ 'is-invalid': isNewTodoItemInvalid }">
             <span class="invalid-feedback">Добавьте описание.</span>
@@ -42,8 +42,8 @@
                            :class="{ 'is-invalid': isInvalid }">
                     <span class="invalid-feedback">Добавьте описание.</span>
                 </div>
-                <button @click="isEditing = false" class="col-auto btn btn-warning me-1">Отменить</button>
                 <button type="submit" class="col-auto btn btn-primary me-1">Сохранить</button>
+                <button @click="isEditing = false" class="col-auto btn btn-warning me-1">Отменить</button>
             </form>
         </div>
         <div v-else class="list-group-item mb-2">
