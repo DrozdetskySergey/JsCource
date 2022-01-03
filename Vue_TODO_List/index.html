@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Vue TODO List</title>
+    <script defer src="node_modules/vue/dist/vue.js"></script>
+    <script defer src="node_modules/bootstrap/dist/js/bootstrap.bundle.js"></script>
+    <script defer src="script.js"></script>
+    <link href="node_modules/bootstrap/dist/css/bootstrap.css" rel="stylesheet">
+    <link href="style.css" rel="stylesheet">
+</head>
+<body>
+<div v-cloak id="app" class="container">
+    <h1 class="text-center">Список дел:</h1>
+    <ol class="list-group list-group-numbered">
+        <todo-item v-for="todoItem in todoItems"
+                   :key="todoItem.id"
+                   :todo-item="todoItem"
+                   @delete-todo-item="deleteTodoItem"
+                   @change-todo-item="changeTodoItem"></todo-item>
+    </ol>
+    <form @submit.prevent="addNewTodoItem" class="pb-2">
+        <div class="col">
+            <label for="input-new-todo-item" class="form-label ms-3">Запланировать:</label><br>
+            <input type="text" v-model="newTodoItemText" id="input-new-todo-item" class="form-control"
+                   :class="{ 'is-invalid': isNewTodoItemInvalid }">
+            <span class="invalid-feedback">Добавьте описание.</span>
+        </div>
+        <div class="col-auto  mt-2">
+            <button type="submit" class="btn btn-primary">Добавить</button>
+        </div>
+    </form>
+</div>
+
+<script id="todo-item-template" type="text/x-template">
+    <li>
+        <div v-if="isEditing" class="list-group-item mb-2">
+            <form @submit.prevent="saveChange">
+                <div class="col mb-2">
+                    <input type="text" v-model="newText" class="form-control"
+                           :class="{ 'is-invalid': isInvalid }">
+                    <span class="invalid-feedback">Добавьте описание.</span>
+                </div>
+                <button @click="isEditing = false" class="col-auto btn btn-warning me-1">Отменить</button>
+                <button type="submit" class="col-auto btn btn-primary me-1">Сохранить</button>
+            </form>
+        </div>
+        <div v-else class="list-group-item mb-2">
+            <div v-text="todoItem.text" class="col-12 mb-1"></div>
+            <button @click="performEditing" class="col-auto btn btn-primary me-1">Изменить</button>
+            <button @click="$emit('delete-todo-item', todoItem)" class="col-auto btn btn-danger me-1">Удалить</button>
+        </div>
+    </li>
+</script>
+</body>
+</html>
