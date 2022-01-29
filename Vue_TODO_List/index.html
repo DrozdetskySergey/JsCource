@@ -48,7 +48,7 @@
         </div>
         <div v-else class="list-group-item mb-2">
             <div v-text="todoItem.text" class="col-12 mb-1"></div>
-            <button @click="performEditing" class="col-auto btn btn-primary me-1">Изменить</button>
+            <button @click="edit" class="col-auto btn btn-primary me-1">Изменить</button>
             <button @click="$emit('delete-todo-item', todoItem)" class="col-auto btn btn-danger me-1">Удалить</button>
         </div>
     </li>

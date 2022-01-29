@@ -17,7 +17,7 @@ Vue.component("todo-item", {
     },
 
     methods: {
-        performEditing: function () {
+        edit: function () {
             this.newText = this.todoItem.text;
             this.isEditing = true;
         },
