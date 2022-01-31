@@ -1,6 +1,82 @@
 {% extends 'layout.twig' %}
 
 {% block body %}
-  <h1>{{title}}</h1>
-  <p>Welcome to {{title}}</p>
+    {% verbatim %}
+        <div id="confirmation-dialog" class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false"
+                tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Подтверждение</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+                    </div>
+                    <div class="modal-body"></div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                        <button type="button" class="confirmation-button btn btn-danger" data-bs-dismiss="modal">
+                            Удалить
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="app" v-cloak class="container border border-1 border-primary my-1 fs-5">
+            <div class="row">
+                <h1 class="bg-primary text-white text-center my-0">Телефонная книга</h1>
+            </div>
+            <div class="row my-1">
+                <button @click="deleteContacts(idList)" class="col-3 col-sm-2 col-lg-1 btn btn-danger mx-1">Удалить</button>
+                <div class="col-8 col-lg-6">
+                    <label class="input-group">
+                        <button @click="clearSearchTerm" class="btn btn-secondary">...</button>
+                        <input type="text" v-modal="searchTerm" class="form-control" placeholder="Поиск">
+                    </label>
+                </div>
+            </div>
+            <div class="row my-1">
+                <div class="col-1 bg-primary text-center">
+                    <label><input type="checkbox" class="phone-book-checkbox form-check-input"></label>
+                </div>
+                <div class="col-1 bg-primary text-white text-center">№</div>
+                <div class="col-3 bg-primary text-white">Фамилия</div>
+                <div class="col-2 bg-primary text-white">Имя</div>
+                <div class="col-4 bg-primary text-white text-nowrap">Номер телефона</div>
+                <div class="col-1 bg-primary"></div>
+            </div>
+            <div v-for="(contact, index) in contacts" :key="contact.id" class="row my-1" :title="contact.lastName + ' ' + contact.name">
+                <div class="col-1 bg-light text-center">
+                    <label><input type="checkbox" class="form-check-input"></label>
+                </div>
+                <div v-text="index + 1" class="col-1 bg-primary text-white text-center"></div>
+                <div v-text="contact.lastName" class="col-3 bg-light text-nowrap"></div>
+                <div v-text="contact.name" class="col-2 bg-light text-nowrap"></div>
+                <div v-text="contact.phone" class="col-4 bg-light text-nowrap"></div>
+                <div class="col-1 bg-light text-center">
+                    <button @click="deleteContact(contact)" class="btn btn-danger btn-sm align-top" title="Удалить контакт">X</button>
+                </div>
+            </div>
+            <div class="row">
+                <h4 class="high-line bg-primary text-white my-0">Новая запись:</h4>
+            </div>
+            <div class="row my-2">
+                <label class="col-sm-6 col-lg-3 my-1">
+                    <input type="text" v-modal="lastName" class="form-control" placeholder="Фамилия">
+                    <span class="invalid-feedback">Введите фамилию.</span>
+                </label>
+                <label class="col-sm-6 col-lg-2 my-1">
+                    <input type="text" v-modal="name" class="form-control" placeholder="Имя">
+                    <span class="invalid-feedback">Введите имя.</span>
+                </label>
+                <label class="col-sm-6 col-lg-4 my-1">
+                    <input type="text" v-modal="phone" class="form-control" placeholder="Номер телефона">
+                    <span id="phone-invalid-feedback-text"
+                          class="invalid-feedback">Введите номер.</span>
+                </label>
+                <div class="col-3 col-sm-2 col-xl-1 my-1">
+                    <button @click="addContact" class="btn btn-primary">Добавить</button>
+                </div>
+            </div>
+        </div>
+    {% endverbatim %}
 {% endblock %}

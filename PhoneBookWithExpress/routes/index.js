@@ -4,11 +4,17 @@ var router = express.Router();
 var contacts = []; // { id, lastName, name, phone }
 var newContactId = 1;
 
-// ?term=...
-router.get("/api/getContacts", function (req, res) {
-    var term = (req.query.term || "").toLowerCase();
+router.get("/", function (req, res) {
+    res.render("index");
+});
 
-    var result = !term ? contacts : contacts.filter(function (contact) {
+// ?searchTerm=...
+router.get("/api/getContacts", function (req, res) {
+    var searchTerm = (req.query.searchTerm || "").trim.toLowerCase();
+
+    alert("___")
+
+    var result = !searchTerm ? contacts : contacts.filter(function (contact) {
         return contact.lastName.toLowerCase().includes(term) ||
             contact.name.toLowerCase().includes(term) ||
             contact.phone.toLowerCase().includes(term);
@@ -18,15 +24,15 @@ router.get("/api/getContacts", function (req, res) {
 });
 
 // [id, ...]
-router.post("/api/deleteContact", function (req, res) {
+router.post("/api/deleteContacts", function (req, res) {
     var idList = req.body.slice();
-    
+
     if (idList.length === 0) {
         res.send({
             isSuccess: false,
-            message: "No one ID to delete."
+            message: "Отсутствуют ID для удаления."
         });
-        
+
         return;
     }
 
@@ -42,35 +48,35 @@ router.post("/api/deleteContact", function (req, res) {
 
 // { lastName, name, phone }
 router.post("/api/addContact", function (req, res) {
-    var requestBody = req.body;
-
-    requestBody.phone = requestBody.phone.replace(/\D/g, "").slice(0, 11);
-
-    if (!requestBody.lastName || !requestBody.name || !requestBody.phone) {
-        res.send({
-            isSuccess: false,
-            message: "New contact is invalid."
-        });
-
-        return;
-    }
-
-    if (contacts.some(function (contact) {
-        return contact.phone === requestBody.phone;
-    })) {
-        res.send({
-            isSuccess: false,
-            message: "Contact with this phone already exists."
-        });
-
-        return;
-    }
-
     var newContact = {
         id: newContactId,
-        lastName: requestBody.lastName,
-        name: requestBody.name,
-        phone: requestBody.phone
+        lastName: req.body.lastName.trim,
+        name: req.body.name.trim,
+        phone: req.body.phone.trim
+            .replace(/\D/g, "")
+            .slice(0, 11)
+    };
+
+    if (!newContact.lastName || !newContact.name || !newContact.phone) {
+        res.send({
+            isSuccess: false,
+            message: "Не корректный новый контакт."
+        });
+
+        return;
+    }
+
+    var hasPhone = contacts.some(function (contact) {
+        return contact.phone === newContact.phone;
+    });
+
+    if (hasPhone) {
+        res.send({
+            isSuccess: false,
+            message: "Контакт с таким номером уже существует."
+        });
+
+        return;
     }
 
     contacts.push(newContact);
