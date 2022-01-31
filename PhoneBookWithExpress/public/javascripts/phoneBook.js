@@ -13,13 +13,13 @@ function post(url, data) {
 }
 
 new Vue({
-    el: "@app",
+    el: "#app",
 
     data: {
         contacts: [],
         searchTerm: "",
         idList: [],
-        lastname: "",
+        lastName: "",
         name: "",
         phone: ""
     },

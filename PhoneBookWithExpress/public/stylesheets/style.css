@@ -6,3 +6,11 @@ body {
 a {
   color: #00B7FF;
 }
+
+/*[v-cloak] {*/
+/*    display: none;*/
+/*}*/
+
+.high-line {
+  line-height: 1.26;
+}

@@ -8,11 +8,10 @@ router.get("/", function (req, res) {
     res.render("index");
 });
 
-// ?searchTerm=...
+// ?term=...
 router.get("/api/getContacts", function (req, res) {
-    var searchTerm = (req.query.searchTerm || "").trim.toLowerCase();
-
-    alert("___")
+    alert("___");
+    var searchTerm = (req.query.term || "").trim.toLowerCase();
 
     var result = !searchTerm ? contacts : contacts.filter(function (contact) {
         return contact.lastName.toLowerCase().includes(term) ||
