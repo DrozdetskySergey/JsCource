@@ -59,10 +59,10 @@ new Vue({
 
             this.deleteContacts([this.contactId]);
 
-            var currentThis = this;
+            var deletedId = this.contactId;
 
             this.idList = this.idList.filter(function (id) {
-                return id !== currentThis.contactId;
+                return id !== deletedId;
             });
         },
 
