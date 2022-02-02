@@ -1,15 +1,6 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+[v-cloak] {
+    display: none;
 }
-
-a {
-  color: #00B7FF;
-}
-
-/*[v-cloak] {*/
-/*    display: none;*/
-/*}*/
 
 .high-line {
   line-height: 1.26;

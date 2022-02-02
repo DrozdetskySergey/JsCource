@@ -10,13 +10,12 @@ router.get("/", function (req, res) {
 
 // ?term=...
 router.get("/api/getContacts", function (req, res) {
-    alert("___");
-    var searchTerm = (req.query.term || "").trim.toLowerCase();
+    var searchTerm = (req.query.term || "").toLowerCase().toString().trim();
 
     var result = !searchTerm ? contacts : contacts.filter(function (contact) {
-        return contact.lastName.toLowerCase().includes(term) ||
-            contact.name.toLowerCase().includes(term) ||
-            contact.phone.toLowerCase().includes(term);
+        return contact.lastName.toLowerCase().includes(searchTerm) ||
+            contact.name.toLowerCase().includes(searchTerm) ||
+            contact.phone.toLowerCase().includes(searchTerm);
     });
 
     res.send(result);
@@ -49,14 +48,14 @@ router.post("/api/deleteContacts", function (req, res) {
 router.post("/api/addContact", function (req, res) {
     var newContact = {
         id: newContactId,
-        lastName: req.body.lastName.trim,
-        name: req.body.name.trim,
-        phone: req.body.phone.trim
+        lastName: req.body.lastName.toString().trim(),
+        name: req.body.name.toString().trim(),
+        phone: req.body.phone.toString()
             .replace(/\D/g, "")
             .slice(0, 11)
     };
 
-    if (!newContact.lastName || !newContact.name || !newContact.phone) {
+    if (!newContact.lastName || !newContact.name || newContact.phone.length < 11) {
         res.send({
             isSuccess: false,
             message: "Не корректный новый контакт."
@@ -65,11 +64,11 @@ router.post("/api/addContact", function (req, res) {
         return;
     }
 
-    var hasPhone = contacts.some(function (contact) {
+    var hasDuplicate = contacts.some(function (contact) {
         return contact.phone === newContact.phone;
     });
 
-    if (hasPhone) {
+    if (hasDuplicate) {
         res.send({
             isSuccess: false,
             message: "Контакт с таким номером уже существует."

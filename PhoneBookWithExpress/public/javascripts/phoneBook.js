@@ -1,4 +1,4 @@
-// var confirmationDialog = new bootstrap.Modal(document.querySelector("#confirmation-dialog"));
+var confirmationDialog = new bootstrap.Modal(document.querySelector("#confirmation-dialog"));
 
 function get(url, data) {
     return $.get(url, data);
@@ -16,6 +16,7 @@ new Vue({
     el: "#app",
 
     data: {
+        hasAllChecked: false,
         contacts: [],
         searchTerm: "",
         idList: [],
@@ -31,6 +32,8 @@ new Vue({
     methods: {
         clearSearchTerm: function () {
             this.searchTerm = "";
+
+            this.loadContacts();
         },
 
         loadContacts: function () {
@@ -43,8 +46,14 @@ new Vue({
             });
         },
 
-        deleteContact: function (contact) {
+        removeContact: function (contact) {
             this.deleteContacts([contact.id]);
+        },
+
+        removeContacts: function () {
+            this.deleteContacts(this.idList);
+
+            this.hasAllChecked = false;
         },
 
         deleteContacts: function (idList) {
@@ -77,7 +86,8 @@ new Vue({
             post("/api/addContact", request).done(function (response) {
                 if (response.isSuccess) {
                     currentThis.loadContacts();
-                    currentThis.lastname = "";
+
+                    currentThis.lastName = "";
                     currentThis.name = "";
                     currentThis.phone = "";
 
@@ -88,6 +98,20 @@ new Vue({
             }).fail(function () {
                 alert("Не удалось добавить контакт!");
             });
+        }
+    },
+
+    watch: {
+        hasAllChecked: function (newValue) {
+            this.idList.splice(0, this.idList.length);
+
+            if (newValue) {
+                var currentThis = this;
+
+                this.contacts.forEach(function (contact) {
+                    currentThis.idList.push(contact.id);
+                });
+            }
         }
     }
 });
