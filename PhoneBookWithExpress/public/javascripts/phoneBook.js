@@ -18,9 +18,8 @@ new Vue({
     el: "#app",
 
     data: {
-        showModal1: false,
-        showModal2: false,
-        showModal3: false,
+        isDisabledDeleteButton: true,
+        showModal: 0, // 0(disabled), 1, 2, 3
         hasAllChecked: false,
         contacts: [],
         searchTerm: "",
@@ -56,16 +55,24 @@ new Vue({
         },
 
         removeContact: function () {
-            this.showModal1 = false;
+            this.showModal = 0;
 
             this.deleteContacts([this.contactId]);
+
+            var currentThis = this;
+
+            this.idList = this.idList.filter(function (id) {
+                return id !== currentThis.contactId;
+            });
         },
 
         removeContacts: function () {
-            this.showModal2 = false;
-            this.hasAllChecked = false;
+            this.showModal = 0;
 
             this.deleteContacts(this.idList);
+
+            this.idList.splice(0, this.idList.length);
+            this.hasAllChecked = false;
         },
 
         deleteContacts: function (idList) {
@@ -115,11 +122,11 @@ new Vue({
             this.name = name;
             this.phone = phone;
 
-            this.showModal3 = true;
+            this.showModal = 3;
         },
 
         addContact: function () {
-            this.showModal3 = false;
+            this.showModal = 0;
 
             var request = {
                 lastName: this.lastName,
@@ -158,6 +165,10 @@ new Vue({
                     currentThis.idList.push(contact.id);
                 });
             }
+        },
+
+        idList: function (newValue) {
+            this.isDisabledDeleteButton = newValue.length === 0;
         },
 
         lastName: function (newValue) {

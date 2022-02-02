@@ -6,8 +6,10 @@
             <div class="row">
                 <h1 class="bg-primary text-white text-center my-0">Телефонная книга</h1>
             </div>
+
             <div class="row my-1">
-                <button @click="showModal2 = true" :disabled="idList.length === 0" class="col-3 col-sm-2 col-lg-1 btn btn-danger mx-1">
+                <button @click="showModal = 2" class="col-3 col-sm-2 col-lg-1 btn btn-danger mx-1"
+                        :disabled="isDisabledDeleteButton">
                     Удалить
                 </button>
                 <div class="col-8 col-lg-6">
@@ -24,6 +26,7 @@
                     </form>
                 </div>
             </div>
+
             <div class="row my-1">
                 <div class="col-1 bg-primary text-center">
                     <label><input type="checkbox" v-model="hasAllChecked" class="form-check-input"></label>
@@ -34,6 +37,7 @@
                 <div class="col-4 bg-primary text-white text-nowrap">Номер телефона</div>
                 <div class="col-1 bg-primary"></div>
             </div>
+
             <div v-for="(contact, index) in contacts" :key="contact.id" v-cloak class="row my-1"
                     :title="contact.lastName + ' ' + contact.name">
                 <div class="col-1 bg-light text-center">
@@ -47,11 +51,12 @@
                 <div v-text="contact.name" class="col-2 bg-light text-nowrap"></div>
                 <div v-text="contact.phone" class="col-4 bg-light text-nowrap"></div>
                 <div class="col-1 bg-light text-center">
-                    <button @click="showModal1 = true; contactId = contact.id" class="btn btn-danger btn-sm align-top"
+                    <button @click="showModal = 1; contactId = contact.id" class="btn btn-danger btn-sm align-top"
                         title="Удалить контакт">X
                     </button>
                 </div>
             </div>
+
             <div class="row">
                 <h4 class="high-line bg-primary text-white my-0">Новая запись:</h4>
             </div>
@@ -77,19 +82,31 @@
                 </div>
             </div>
 
-            <modal v-cloak v-if="showModal1" @close="showModal1 = false" @confirm="removeContact">
+            <modal v-cloak v-if="showModal === 1" :color="btn-danger" @close="showModal = 0">
                 <h5 slot="body">Удалить контакт?</h5>
-                <span slot="button">Удалить</span>
+                <template v-slot:confirm-button>
+                    <button class="modal-default-button btn btn-danger" @click="removeContact">
+                        Удалить
+                    </button>
+                </template>
             </modal>
 
-            <modal v-cloak v-if="showModal2" @close="showModal2 = false" @confirm="removeContacts">
+            <modal v-cloak v-else-if="showModal === 2" :color="btn-danger" @close="showModal = 0">
                 <h5 slot="body">Удалить контакт(ы)?</h5>
-                <span slot="button">Удалить</span>
+                <template v-slot:confirm-button>
+                    <button class="modal-default-button btn btn-danger" @click="removeContacts">
+                        Удалить
+                    </button>
+                </template>
             </modal>
 
-            <modal v-cloak v-if="showModal3" @close="showModal3 = false" @confirm="addContact">
+            <modal v-cloak v-else-if="showModal === 3" :color="btn-primary" @close="showModal = 0">
                 <h5 slot="body">Добавить контакт?</h5>
-                <span slot="button">Добавить</span>
+                <template v-slot:confirm-button>
+                    <button class="modal-default-button btn btn-primary" @click="addContact">
+                        Добавить
+                    </button>
+                </template>
             </modal>
         </div>
 
@@ -102,17 +119,13 @@
                                 <h3 slot="header">Подтверждение</h3>
                             </div>
                             <div class="modal-body">
-                                <slot name="body">
-                                </slot>
+                                <slot name="body"></slot>
                             </div>
                             <div class="modal-footer">
                                 <button class="modal-default-button btn btn-secondary" @click="$emit('close')">
                                     Отмена
                                 </button>
-                                <button class="modal-default-button btn btn-warning"" @click="$emit('confirm')">
-                                    <slot name="button">
-                                    </slot>
-                                </button>
+                                <slot name="confirm-button"></slot>
                             </div>
                         </div>
                     </div>
