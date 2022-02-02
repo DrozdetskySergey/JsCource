@@ -1,5 +1,3 @@
-var confirmationDialog = new bootstrap.Modal(document.querySelector("#confirmation-dialog"));
-
 function get(url, data) {
     return $.get(url, data);
 }
@@ -12,17 +10,28 @@ function post(url, data) {
     });
 }
 
+Vue.component("modal", {
+    template: "#modal-template"
+});
+
 new Vue({
     el: "#app",
 
     data: {
+        showModal1: false,
+        showModal2: false,
+        showModal3: false,
         hasAllChecked: false,
         contacts: [],
         searchTerm: "",
         idList: [],
+        contactId: 0,
         lastName: "",
         name: "",
-        phone: ""
+        phone: "",
+        isLastNameInvalid: false,
+        isNameInvalid: false,
+        isPhoneInvalid: false,
     },
 
     created: function () {
@@ -46,14 +55,17 @@ new Vue({
             });
         },
 
-        removeContact: function (contact) {
-            this.deleteContacts([contact.id]);
+        removeContact: function () {
+            this.showModal1 = false;
+
+            this.deleteContacts([this.contactId]);
         },
 
         removeContacts: function () {
-            this.deleteContacts(this.idList);
-
+            this.showModal2 = false;
             this.hasAllChecked = false;
+
+            this.deleteContacts(this.idList);
         },
 
         deleteContacts: function (idList) {
@@ -74,14 +86,48 @@ new Vue({
             }
         },
 
+        checkNewContactValid: function () {
+            var lastName = this.lastName.trim();
+            var name = this.name.trim();
+            var phone = this.phone.trim()
+                .replace(/\D/g, "")
+                .slice(0, 11);
+
+            if (!lastName) {
+                this.isLastNameInvalid = true;
+
+                return;
+            }
+
+            if (!name) {
+                this.isNameInvalid = true;
+
+                return;
+            }
+
+            if (phone.length < 11) {
+                this.isPhoneInvalid = true;
+
+                return;
+            }
+
+            this.lastName = lastName;
+            this.name = name;
+            this.phone = phone;
+
+            this.showModal3 = true;
+        },
+
         addContact: function () {
-            var currentThis = this;
+            this.showModal3 = false;
 
             var request = {
                 lastName: this.lastName,
                 name: this.name,
                 phone: this.phone
             }
+
+            var currentThis = this;
 
             post("/api/addContact", request).done(function (response) {
                 if (response.isSuccess) {
@@ -111,6 +157,24 @@ new Vue({
                 this.contacts.forEach(function (contact) {
                     currentThis.idList.push(contact.id);
                 });
+            }
+        },
+
+        lastName: function (newValue) {
+            if (newValue.length > 0) {
+                this.isLastNameInvalid = false;
+            }
+        },
+
+        name: function (newValue) {
+            if (newValue.length > 0) {
+                this.isNameInvalid = false;
+            }
+        },
+
+        phone: function (newValue) {
+            if (newValue.length > 10) {
+                this.isPhoneInvalid = false;
             }
         }
     }
