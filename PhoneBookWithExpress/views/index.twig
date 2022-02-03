@@ -82,7 +82,7 @@
                 </div>
             </div>
 
-            <modal v-cloak v-if="showModal === 1" :color="btn-danger" @close="showModal = 0">
+            <modal v-cloak v-if="showModal === 1" @close="showModal = 0">
                 <h5 slot="body">Удалить контакт?</h5>
                 <template v-slot:confirm-button>
                     <button class="modal-default-button btn btn-danger" @click="removeContact">
@@ -91,7 +91,7 @@
                 </template>
             </modal>
 
-            <modal v-cloak v-else-if="showModal === 2" :color="btn-danger" @close="showModal = 0">
+            <modal v-cloak v-else-if="showModal === 2" @close="showModal = 0">
                 <h5 slot="body">Удалить контакт(ы)?</h5>
                 <template v-slot:confirm-button>
                     <button class="modal-default-button btn btn-danger" @click="removeContacts">
@@ -100,7 +100,7 @@
                 </template>
             </modal>
 
-            <modal v-cloak v-else-if="showModal === 3" :color="btn-primary" @close="showModal = 0">
+            <modal v-cloak v-else-if="showModal === 3" @close="showModal = 0">
                 <h5 slot="body">Добавить контакт?</h5>
                 <template v-slot:confirm-button>
                     <button class="modal-default-button btn btn-primary" @click="addContact">
