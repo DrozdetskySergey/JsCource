@@ -1,10 +1,21 @@
-function get(url, data) {
+var happy = happy || {};
+
+happy.get = function (url, data) {
     return $.get(url, data);
 }
 
-function post(url, data) {
+happy.post = function (url, data) {
     return $.post({
         url: url,
+        contentType: "application/json",
+        data: JSON.stringify(data)
+    });
+}
+
+happy.delete = function (url, data) {
+    return $.ajax({
+        url: url,
+        type: "delete",
         contentType: "application/json",
         data: JSON.stringify(data)
     });
@@ -21,7 +32,7 @@ new Vue({
         isDisabledDeleteButton: true,
         showModal: 0, // 0(disabled), 1, 2, 3
         hasAllChecked: false,
-        contacts: [],
+        contacts: [], // { id, lastName, name, phone }
         searchTerm: "",
         idList: [],
         contactId: 0,
@@ -47,7 +58,7 @@ new Vue({
         loadContacts: function () {
             var currentThis = this;
 
-            get("/api/getContacts", {term: this.searchTerm}).done(function (contacts) {
+            happy.get("/api", {term: this.searchTerm}).done(function (contacts) {
                 currentThis.contacts = contacts;
             }).fail(function () {
                 alert("Не удалось загрузить контакты!");
@@ -58,35 +69,49 @@ new Vue({
             this.showModal = 0;
 
             this.deleteContacts([this.contactId]);
-
-            var deletedId = this.contactId;
-
-            this.idList = this.idList.filter(function (id) {
-                return id !== deletedId;
-            });
         },
 
         removeContacts: function () {
             this.showModal = 0;
 
-            this.deleteContacts(this.idList);
+            if (!this.searchTerm) {
+                this.deleteContacts(this.idList);
 
-            this.idList.splice(0, this.idList.length);
-            this.hasAllChecked = false;
+                return;
+            }
+
+            var actualContactsIdList = this.contacts.map(function (contact) {
+                return contact.id;
+            });
+
+            var idList = this.idList.filter(function (id) {
+                return actualContactsIdList.indexOf(id) !== -1;
+            });
+
+            this.deleteContacts(idList);
         },
 
         deleteContacts: function (idList) {
-            if (idList.length) {
+            if (idList.length > 0) {
                 var currentThis = this;
 
-                post("/api/deleteContacts", idList).done(function (response) {
-                    if (response.isSuccess) {
-                        currentThis.loadContacts();
+                happy.delete("/api", idList).done(function (response) {
+                    if (response.isSuccess === false) {
+                        alert(response.message);
 
                         return;
                     }
 
-                    alert("Server: " + response.message);
+                    currentThis.idList = currentThis.idList.filter(function (id) {
+                        return idList.indexOf(id) === -1;
+                    });
+
+                    if (currentThis.idList.length === 0) {
+                        currentThis.hasAllChecked = false;
+                        currentThis.isDisabledDeleteButton = true;
+                    }
+
+                    currentThis.loadContacts();
                 }).fail(function () {
                     alert("Не удалось удалить контакт(ы)!");
                 });
@@ -94,32 +119,24 @@ new Vue({
         },
 
         checkNewContactValid: function () {
-            var lastName = this.lastName.trim();
-            var name = this.name.trim();
-            var phone = this.phone.trim()
-                .replace(/\D/g, "")
-                .slice(0, 11);
+            var phone = this.phone.replace(/\D/g, "");
 
-            if (!lastName) {
+            if (!this.lastName) {
                 this.isLastNameInvalid = true;
-
-                return;
             }
 
-            if (!name) {
+            if (!this.name) {
                 this.isNameInvalid = true;
-
-                return;
             }
 
-            if (phone.length < 11) {
+            if (phone.length !== 11) {
                 this.isPhoneInvalid = true;
+            }
 
+            if (this.isLastNameInvalid || this.isNameInvalid || this.isPhoneInvalid) {
                 return;
             }
 
-            this.lastName = lastName;
-            this.name = name;
             this.phone = phone;
 
             this.showModal = 3;
@@ -136,18 +153,18 @@ new Vue({
 
             var currentThis = this;
 
-            post("/api/addContact", request).done(function (response) {
-                if (response.isSuccess) {
-                    currentThis.loadContacts();
-
-                    currentThis.lastName = "";
-                    currentThis.name = "";
-                    currentThis.phone = "";
+            happy.post("/api", request).done(function (response) {
+                if (response.isSuccess === false) {
+                    alert(response.message);
 
                     return;
                 }
 
-                alert("Server: " + response.message);
+                currentThis.loadContacts();
+
+                currentThis.lastName = "";
+                currentThis.name = "";
+                currentThis.phone = "";
             }).fail(function () {
                 alert("Не удалось добавить контакт!");
             });

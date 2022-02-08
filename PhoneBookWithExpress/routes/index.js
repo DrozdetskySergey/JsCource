@@ -9,7 +9,7 @@ router.get("/", function (req, res) {
 });
 
 // ?term=...
-router.get("/api/getContacts", function (req, res) {
+router.get("/api", function (req, res) {
     var searchTerm = (req.query.term || "").toLowerCase().toString().trim();
 
     var result = !searchTerm ? contacts : contacts.filter(function (contact) {
@@ -22,7 +22,7 @@ router.get("/api/getContacts", function (req, res) {
 });
 
 // [id, ...]
-router.post("/api/deleteContacts", function (req, res) {
+router.delete("/api", function (req, res) {
     var idList = req.body.slice();
 
     if (idList.length === 0) {
@@ -45,17 +45,15 @@ router.post("/api/deleteContacts", function (req, res) {
 });
 
 // { lastName, name, phone }
-router.post("/api/addContact", function (req, res) {
+router.post("/api", function (req, res) {
     var newContact = {
         id: newContactId,
         lastName: req.body.lastName.toString().trim(),
         name: req.body.name.toString().trim(),
-        phone: req.body.phone.toString()
-            .replace(/\D/g, "")
-            .slice(0, 11)
+        phone: req.body.phone.toString().replace(/\D/g, "")
     };
 
-    if (!newContact.lastName || !newContact.name || newContact.phone.length < 11) {
+    if (!newContact.lastName || !newContact.name || newContact.phone.length !== 11) {
         res.send({
             isSuccess: false,
             message: "Не корректный новый контакт."

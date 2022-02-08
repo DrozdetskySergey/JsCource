@@ -15,7 +15,7 @@
                 <div class="col-8 col-lg-6">
                     <form @submit.prevent="loadContacts">
                         <label class="input-group">
-                            <button type="reset" @click="clearSearchTerm" class="btn btn-secondary">
+                            <button type="reset" @click="clearSearchTerm" class="btn btn-secondary" title="Очистить">
                                 ...
                             </button>
                             <input type="text" v-model="searchTerm" class="form-control" placeholder="Поиск">
@@ -29,7 +29,10 @@
 
             <div class="row my-1">
                 <div class="col-1 bg-primary text-center">
-                    <label><input type="checkbox" v-model="hasAllChecked" class="form-check-input"></label>
+                    <label>
+                        <input type="checkbox" v-model="hasAllChecked" class="form-check-input"
+                            :disabled="contacts.length === 0">
+                    </label>
                 </div>
                 <div class="col-1 bg-primary text-white text-center">№</div>
                 <div class="col-3 bg-primary text-white">Фамилия</div>
@@ -62,17 +65,17 @@
             </div>
             <div class="row my-2">
                 <label class="col-sm-6 col-lg-3 my-1">
-                    <input type="text" v-model="lastName" class="form-control"
+                    <input type="text" v-model.trim="lastName" class="form-control"
                         :class="{ 'is-invalid': isLastNameInvalid }" placeholder="Фамилия">
                     <span class="invalid-feedback">Введите фамилию.</span>
                 </label>
                 <label class="col-sm-6 col-lg-2 my-1">
-                    <input type="text" v-model="name" class="form-control"
+                    <input type="text" v-model.trim="name" class="form-control"
                         :class="{ 'is-invalid': isNameInvalid }" placeholder="Имя">
                     <span class="invalid-feedback">Введите имя.</span>
                 </label>
                 <label class="col-sm-6 col-lg-4 my-1">
-                    <input type="text" v-model="phone" class="form-control"
+                    <input type="text" v-model.trim="phone" class="form-control"
                         :class="{ 'is-invalid': isPhoneInvalid }" placeholder="Номер телефона">
                     <span id="phone-invalid-feedback-text"
                           class="invalid-feedback">Введите номер из 11 цифр.</span>
